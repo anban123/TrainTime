@@ -15,7 +15,14 @@ var firebaseConfig = {
 
 var database = firebase.database();
 
-var createRow = function() {
+// Initial Values
+var trainName = "";
+var destination = "";
+var trainTime = 0;
+var frequency = 0;
+
+//function to create rows
+function creatRow() {
     // Create a new table row element
     var tRow = $("<tr>");
 
@@ -26,15 +33,14 @@ var createRow = function() {
     var trainTimeTd = $("<td>").text();
     var frequencyTd = $("<td>").text();
 
-        
+         
     // Append the newly created table data to the table row
     tRow.append(nameTd, destinationTd, trainTimeTd, frequencyTd);
     // Append the table row to the table body
     $("tbody").append(tRow);
 };
 
-
-// Whenever a user clicks the submit-bid button
+//captures submit button click
 $("#submit-button").on("click", function(event) {
     event.preventDefault();
 
@@ -57,4 +63,26 @@ $("#submit-button").on("click", function(event) {
     console.log(destination);
     console.log(trainTime);
     console.log(frequency);
+
+    createRow();
 })
+
+                                                                 // Firebase watcher + initial loader
+ database.ref().on("value", function(snapshot) {
+
+  // Log everything that's coming out of snapshot
+  console.log(snapshot.val().trainName);
+  console.log(snapshot.val().destination);
+  console.log(snapshot.val().trainTime);
+  console.log(snapshot.val().frequency);
+
+  // Change the HTML to reflect
+  $("#name-display").text(snapshot.val().trainName);
+  $("#email-display").text(snapshot.val().destination);
+  $("#age-display").text(snapshot.val().trainTime);
+  $("#comment-display").text(snapshot.val().frequency);
+
+  // Handle the errors
+}, function(errorObject) {
+  console.log("Errors handled: " + errorObject.code);
+});
