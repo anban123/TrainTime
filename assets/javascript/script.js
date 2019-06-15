@@ -21,17 +21,17 @@ var destination = "";
 var trainTime = 0;
 var frequency = 0;
 
-//establishing the date and format of "date"
+// Establishes the date and format of "date"
 var randomDate = "";
 var dateFormat = "MM/DD/YYYY";
 var randomMoment = moment(randomDate, dateFormat);
 
 
-//captures submit button click
+// Captures submit button click
 $("#submit-button").on("click", function(event) {
     event.preventDefault();
     
-    //Get the input values
+    // Get the input values
     var trainName = $("#train-name").val().trim();
     var destination = $("#destination").val().trim();
     var trainTime = parseInt($("#train-time").val().trim());
@@ -39,10 +39,10 @@ $("#submit-button").on("click", function(event) {
   
     // Save in Firebase
     database.ref().set({
-      bName: trainName,
-      bDestination: destination,
-      bTrainTime: trainTime,
-      bMonRate: frequency
+      Name: trainName,
+      Destination: destination,
+      TrainTime: trainTime,
+      Frequency: frequency
     });
 
     // Log the new info
@@ -59,6 +59,42 @@ $("#submit-button").on("click", function(event) {
     $("#train-time").val("");
     $("#frequency").val("");
   })
+
+  // Firebase event for adding info to the database and html
+  database.ref().on("child_added"), function(childSnapshot) {
+    console.log(childSnapshot.val());
+
+    // Store everything into a variable
+    var trainName = childSnapshot.val().Name;
+    var destination = childSnapshot.val().Destination;
+    var trainTime = childSnapshot.val().TrainTime;
+    var frequency = childSnapshot.val().Frequency; 
+
+    // Logging train info
+    console.log(trainName);
+    console.log(destination);
+    console.log(trainTime);
+    console.log(frequency);
+
+    
+
+
+    //create the new row
+    var newRow = $("<tr>").append(
+      $("<td>").text(trainName),
+      $("<td>").text(destination),
+      $("<td>").text(trainTime),
+      $("<td>").text(frequency)
+    );
+
+    //append new row to table
+    $().append(newRow);
+
+  };
+
+//NEEDED??????????????????????????????????????
+
+
 
 // Firebase watcher + initial loader                                                               
 database.ref().on("value", function(snapshot) {  
@@ -81,7 +117,6 @@ database.ref().on("value", function(snapshot) {
 });
 
 
-//NEEDED??????????????????????????????????????
 
 
 var tFrequency = 3;               // Assumptions
