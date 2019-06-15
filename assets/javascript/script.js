@@ -58,6 +58,8 @@ $("#submit-button").on("click", function(event) {
     $("#destination").val("");
     $("#train-time").val("");
     $("#frequency").val("");
+
+    //$(".form-control").val("")            ??
   })
 
   // Firebase event for adding info to the database and html
@@ -88,7 +90,7 @@ $("#submit-button").on("click", function(event) {
     );
 
     //append new row to table
-    $().append(newRow);
+    $(".table > thead").append(newRow);
 
   };
 
