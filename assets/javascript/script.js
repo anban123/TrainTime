@@ -21,6 +21,11 @@ var destination = "";
 var trainTime = 0;
 var frequency = 0;
 
+//establishing the date and format of "date"
+var randomDate = "";
+var dateFormat = "MM/DD/YYYY";
+var randomMoment = moment(randomDate, dateFormat);
+
 //function to create rows
 function creatRow() {
     // Create a new table row element
@@ -52,10 +57,10 @@ $("#submit-button").on("click", function(event) {
   
     // Save in Firebase
     database.ref().set({
-    bName: trainName,
-    bDestination: destination,
-    bTrainTime: trainTime,
-    bMonRate: frequency
+      bName: trainName,
+      bDestination: destination,
+      bTrainTime: trainTime,
+      bMonRate: frequency
     });
 
     // Log the new High Price
@@ -67,8 +72,8 @@ $("#submit-button").on("click", function(event) {
     createRow();
 })
 
-                                                                 // Firebase watcher + initial loader
- database.ref().on("value", function(snapshot) {
+// Firebase watcher + initial loader                                                               
+database.ref().on("value", function(snapshot) {  
 
   // Log everything that's coming out of snapshot
   console.log(snapshot.val().trainName);
