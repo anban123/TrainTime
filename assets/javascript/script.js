@@ -45,13 +45,19 @@ $("#submit-button").on("click", function(event) {
       bMonRate: frequency
     });
 
-    // Log the new High Price
+    // Log the new info
     console.log(trainName);
     console.log(destination);
     console.log(trainTime);
     console.log(frequency);
     
-    createRow();
+    alert("New Train Time Added");
+
+    //clear the form after submitting info
+    $("#train-name").val("");
+    $("#destination").val("");
+    $("#train-time").val("");
+    $("#frequency").val("");
   })
 
 // Firebase watcher + initial loader                                                               
