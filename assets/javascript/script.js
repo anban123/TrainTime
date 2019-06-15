@@ -26,29 +26,11 @@ var randomDate = "";
 var dateFormat = "MM/DD/YYYY";
 var randomMoment = moment(randomDate, dateFormat);
 
-//function to create rows
-function creatRow() {
-    // Create a new table row element
-    var tRow = $("<tr>");
-
-    // Methods run on jQuery selectors return the selector they we run on
-    // This is why we can create and save a reference to a td in the same statement we update its text
-    var nameTd = $("<td>").text();
-    var destinationTd = $("<td>").text();
-    var trainTimeTd = $("<td>").text();
-    var frequencyTd = $("<td>").text();
-
-         
-    // Append the newly created table data to the table row
-    tRow.append(nameTd, destinationTd, trainTimeTd, frequencyTd);
-    // Append the table row to the table body
-    $("tbody").append(tRow);
-};
 
 //captures submit button click
 $("#submit-button").on("click", function(event) {
     event.preventDefault();
-
+    
     //Get the input values
     var trainName = $("#train-name").val().trim();
     var destination = $("#destination").val().trim();
@@ -68,9 +50,9 @@ $("#submit-button").on("click", function(event) {
     console.log(destination);
     console.log(trainTime);
     console.log(frequency);
-
+    
     createRow();
-})
+  })
 
 // Firebase watcher + initial loader                                                               
 database.ref().on("value", function(snapshot) {  
@@ -80,14 +62,67 @@ database.ref().on("value", function(snapshot) {
   console.log(snapshot.val().destination);
   console.log(snapshot.val().trainTime);
   console.log(snapshot.val().frequency);
-
+  
   // Change the HTML to reflect
   $("#name-display").text(snapshot.val().trainName);
   $("#email-display").text(snapshot.val().destination);
   $("#age-display").text(snapshot.val().trainTime);
   $("#comment-display").text(snapshot.val().frequency);
-
+  
   // Handle the errors
 }, function(errorObject) {
   console.log("Errors handled: " + errorObject.code);
 });
+
+
+//NEEDED??????????????????????????????????????
+
+
+var tFrequency = 3;               // Assumptions
+
+var firstTime = "03:30";          // Time is 3:30 AM
+
+// First Time (pushed back 1 year to make sure it comes before current time)
+var firstTimeConverted = moment(firstTime, "HH:mm").subtract(1, "years");
+console.log(firstTimeConverted);
+
+// Current Time
+var currentTime = moment();
+console.log("CURRENT TIME: " + moment(currentTime).format("hh:mm"));
+
+// Difference between the times
+var diffTime = moment().diff(moment(firstTimeConverted), "minutes");
+console.log("DIFFERENCE IN TIME: " + diffTime);
+
+// Time apart (remainder)
+var tRemainder = diffTime % tFrequency;
+console.log(tRemainder);
+
+// Minute Until Train
+var tMinutesTillTrain = tFrequency - tRemainder;
+console.log("MINUTES TILL TRAIN: " + tMinutesTillTrain);
+
+// Next Train
+var nextTrain = moment().add(tMinutesTillTrain, "minutes");
+console.log("ARRIVAL TIME: " + moment(nextTrain).format("hh:mm"));
+
+
+
+//function to create rows
+function creatRow() {
+    
+    var tRow = $("<tr>");                                 // Create a new table row element
+
+    // Methods run on jQuery selectors return the selector they we run on
+    // This is why we can create and save a reference to a td in the same statement we update its text
+    var nameTd = $("<td>").text();
+    var destinationTd = $("<td>").text();
+    var trainTimeTd = $("<td>").text();
+    var frequencyTd = $("<td>").text();
+
+         
+    // Append the newly created table data to the table row
+    tRow.append(nameTd, destinationTd, trainTimeTd, frequencyTd);
+    // Append the table row to the table body
+    $("tbody").append(tRow);
+};
