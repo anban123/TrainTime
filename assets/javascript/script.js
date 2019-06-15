@@ -92,34 +92,13 @@ $("#submit-button").on("click", function(event) {
     //append new row to table
     $(".table > thead").append(newRow);
 
+    // Handle the errors
+  }; function(errorObject) {
+    console.log("Errors handled: " + errorObject.code);
   };
 
+  
 //NEEDED??????????????????????????????????????
-
-
-
-// Firebase watcher + initial loader                                                               
-database.ref().on("value", function(snapshot) {  
-
-  // Log everything that's coming out of snapshot
-  console.log(snapshot.val().trainName);
-  console.log(snapshot.val().destination);
-  console.log(snapshot.val().trainTime);
-  console.log(snapshot.val().frequency);
-  
-  // Change the HTML to reflect
-  $("#name-display").text(snapshot.val().trainName);
-  $("#email-display").text(snapshot.val().destination);
-  $("#age-display").text(snapshot.val().trainTime);
-  $("#comment-display").text(snapshot.val().frequency);
-  
-  // Handle the errors
-}, function(errorObject) {
-  console.log("Errors handled: " + errorObject.code);
-});
-
-
-
 
 var tFrequency = 3;               // Assumptions
 
@@ -149,23 +128,3 @@ console.log("MINUTES TILL TRAIN: " + tMinutesTillTrain);
 var nextTrain = moment().add(tMinutesTillTrain, "minutes");
 console.log("ARRIVAL TIME: " + moment(nextTrain).format("hh:mm"));
 
-
-
-//function to create rows
-function creatRow() {
-    
-    var tRow = $("<tr>");                                 // Create a new table row element
-
-    // Methods run on jQuery selectors return the selector they we run on
-    // This is why we can create and save a reference to a td in the same statement we update its text
-    var nameTd = $("<td>").text();
-    var destinationTd = $("<td>").text();
-    var trainTimeTd = $("<td>").text();
-    var frequencyTd = $("<td>").text();
-
-         
-    // Append the newly created table data to the table row
-    tRow.append(nameTd, destinationTd, trainTimeTd, frequencyTd);
-    // Append the table row to the table body
-    $("tbody").append(tRow);
-};
