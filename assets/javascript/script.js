@@ -15,17 +15,32 @@ var firebaseConfig = {
 
 var database = firebase.database();
 
-// Initial Values
-var trainName = "";
-var destination = "";
-var trainTime = 0;
-var frequency = 0;
+// var tFrequency = 0;             
+// var firstTime = "00:00";         
 
-// Establishes the date and format of "date"
-var randomDate = "";
-var dateFormat = "MM/DD/YYYY";
-var randomMoment = moment(randomDate, dateFormat);
+// // First Time (pushed back 1 year to make sure it comes before current time)
+// var firstTimeConverted = moment(firstTime, "HH:MM").subtract(1, "years");
+// console.log(firstTimeConverted);
 
+// // Current Time
+// var currentTime = moment();
+// console.log("CURRENT TIME: " + moment(currentTime).format("HH:MM"));
+
+// // Difference between the times
+// var diffTime = moment().diff(moment(firstTimeConverted), "minutes");
+// console.log("DIFFERENCE IN TIME: " + diffTime);
+
+// // Time apart (remainder)
+// var tRemainder = diffTime % tFrequency;
+// console.log(tRemainder);
+
+// // Minute Until Train
+// var tMinutesTillTrain = tFrequency - tRemainder;
+// console.log("MINUTES TILL TRAIN: " + tMinutesTillTrain);
+
+// // Next Train
+// var nextTrain = moment().add(tMinutesTillTrain, "minutes");
+// console.log("ARRIVAL TIME: " + moment(nextTrain).format("HH:MM"));
 
 // Captures submit button click
 $("#submit-button").on("click", function(event) {
@@ -78,9 +93,6 @@ $("#submit-button").on("click", function(event) {
     console.log(trainTime);
     console.log(frequency);
 
-    
-
-
     //create the new row
     var newRow = $("<tr>").append(
       $("<td>").text(trainName),
@@ -93,38 +105,13 @@ $("#submit-button").on("click", function(event) {
     $(".table > thead").append(newRow);
 
     // Handle the errors
-  }; function(errorObject) {
-    console.log("Errors handled: " + errorObject.code);
   };
+  // function(errorObject) {
+  //   console.log("Errors handled: " + errorObject.code);
+  // };
 
-  
-//NEEDED??????????????????????????????????????
 
-var tFrequency = 3;               // Assumptions
 
-var firstTime = "03:30";          // Time is 3:30 AM
 
-// First Time (pushed back 1 year to make sure it comes before current time)
-var firstTimeConverted = moment(firstTime, "HH:mm").subtract(1, "years");
-console.log(firstTimeConverted);
 
-// Current Time
-var currentTime = moment();
-console.log("CURRENT TIME: " + moment(currentTime).format("hh:mm"));
-
-// Difference between the times
-var diffTime = moment().diff(moment(firstTimeConverted), "minutes");
-console.log("DIFFERENCE IN TIME: " + diffTime);
-
-// Time apart (remainder)
-var tRemainder = diffTime % tFrequency;
-console.log(tRemainder);
-
-// Minute Until Train
-var tMinutesTillTrain = tFrequency - tRemainder;
-console.log("MINUTES TILL TRAIN: " + tMinutesTillTrain);
-
-// Next Train
-var nextTrain = moment().add(tMinutesTillTrain, "minutes");
-console.log("ARRIVAL TIME: " + moment(nextTrain).format("hh:mm"));
 
