@@ -2,16 +2,16 @@
 
 // Your web app's Firebase configuration
 var firebaseConfig = {
-    apiKey: "AIzaSyBOW6-gxboisYBZ1aUhZIaUGiwMfdKT94Q",
-    authDomain: "my-project-f54cd.firebaseapp.com",
-    databaseURL: "https://my-project-f54cd.firebaseio.com",
-    projectId: "my-project-f54cd",
-    storageBucket: "my-project-f54cd.appspot.com",
-    messagingSenderId: "530708653171",
-    appId: "1:530708653171:web:4611dc1358a8538d"
+  apiKey: "AIzaSyBOW6-gxboisYBZ1aUhZIaUGiwMfdKT94Q",
+  authDomain: "my-project-f54cd.firebaseapp.com",
+  databaseURL: "https://my-project-f54cd.firebaseio.com",
+  projectId: "my-project-f54cd",
+  storageBucket: "my-project-f54cd.appspot.com",
+  messagingSenderId: "530708653171",
+  appId: "1:530708653171:web:4611dc1358a8538d"
 };
-  // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
 
 var database = firebase.database();
 
@@ -22,11 +22,11 @@ $("#submit-button").on("click", function(event) {
     // Get the input values
     var trainName = $("#train-name").val().trim();
     var destination = $("#destination").val().trim();
-    var trainTime = parseInt($("#train-time").val().trim());
+    var trainTime = $("#train-time").val().trim();
     var frequency = parseInt($("#frequency").val().trim());
   
     // Save in Firebase
-    database.ref().set({
+    database.ref().push({
       Name: trainName,
       Destination: destination,
       TrainTime: trainTime,
@@ -49,8 +49,8 @@ $("#submit-button").on("click", function(event) {
 })
 
 // Firebase event for adding info to the database and html
-database.ref().on("child_added"), function(childSnapshot) {
-  console.log(childSnapshot.val());
+database.ref().on("child_added", function(childSnapshot) {
+  console.log("This is childSnapshot:" + childSnapshot.val().Destination);
 
   // Store everything into a variable
   var trainName = childSnapshot.val().Name;
@@ -65,7 +65,7 @@ database.ref().on("child_added"), function(childSnapshot) {
   console.log(frequency);
 
   //Where calculations go...
-  var tFrequency = 0;             
+  var tFrequency = frequency;             
   var tFirstTime = trainTime;         
   
   // First Time (pushed back 1 year to make sure it comes before current time)
@@ -90,7 +90,7 @@ database.ref().on("child_added"), function(childSnapshot) {
   
   // Next Train
   var nextArrival = moment().add(tMinutesTillTrain, "minutes");
-  console.log("ARRIVAL TIME: " + moment(nextArrival).format("HH:MM"));
+  console.log("ARRIVAL TIME: " + moment(nextArrival).format("HH:mm"));
 
   //create the new row
   var newRow = $("<tr>").append(
@@ -105,7 +105,7 @@ database.ref().on("child_added"), function(childSnapshot) {
   $(".table > thead").append(newRow);
 
   // Handle the errors
-};
+});
 // function(errorObject) {
 //   console.log("Errors handled: " + errorObject.code);
 // };
