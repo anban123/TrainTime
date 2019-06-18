@@ -1,6 +1,11 @@
 # TrainTime
 
-This is the train schedule assignment.  Below are the directions:
+Link:
+https://anban123.github.io/TrainTime/
+
+In this assignment I created a train schedule simulator.
+
+Below are the instructions:
 
 When adding trains, administrators should be able to submit the following:
 -Train Name
