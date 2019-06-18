@@ -23,7 +23,7 @@ $("#submit-button").on("click", function(event) {
     var trainName = $("#train-name").val().trim();
     var destination = $("#destination").val().trim();
     var trainTime = $("#train-time").val().trim();
-    var frequency = parseInt($("#frequency").val().trim());
+    var frequency = $("#frequency").val().trim();     
   
     // Save in Firebase
     database.ref().push({
@@ -59,18 +59,20 @@ database.ref().on("child_added", function(childSnapshot) {
   var frequency = childSnapshot.val().Frequency; 
 
   // Logging train info
-  console.log(trainName);
-  console.log(destination);
-  console.log(trainTime);
-  console.log(frequency);
+  console.log("BLA" + trainName);
+  console.log("BLA" + destination);
+  console.log("BLA" + trainTime);
+  console.log("BLA" + frequency);
 
   //Where calculations go...
   var tFrequency = frequency;             
-  var tFirstTime = trainTime;         
+  var tFirstTime = trainTime; 
+  
+  console.log("This is trainTime:" + trainTime);
   
   // First Time (pushed back 1 year to make sure it comes before current time)
   var firstTimeConverted = moment(tFirstTime, "HH:mm").subtract(1, "years");
-  console.log(firstTimeConverted);
+  console.log("This is firstTimeConverted:" + firstTimeConverted);
   
   // Current Time
   var currentTime = moment();
@@ -82,14 +84,14 @@ database.ref().on("child_added", function(childSnapshot) {
   
   // Time apart (remainder)
   var tRemainder = diffTime % tFrequency;
-  console.log(tRemainder);
+  console.log("This is the time remaining:" + tRemainder);
   
   // Minute Until Train
-  var tMinutesTillTrain = tFrequency - tRemainder;
-  console.log("MINUTES TILL TRAIN: " + tMinutesTillTrain);
+  var tMinutesAway = tFrequency - tRemainder;
+  console.log("MINUTES TILL TRAIN: " + tMinutesAway);
   
   // Next Train
-  var nextArrival = moment().add(tMinutesTillTrain, "minutes");
+  var nextArrival = moment().add(tMinutesAway, "minutes");
   console.log("ARRIVAL TIME: " + moment(nextArrival).format("HH:mm"));
 
   //create the new row
@@ -98,17 +100,17 @@ database.ref().on("child_added", function(childSnapshot) {
     $("<td>").text(destination),
     $("<td>").text(frequency),
     $("<td>").text(nextArrival),
-    $("<td>").text(tMinutesTillTrain)
+    $("<td>").text(tMinutesAway)
   );
 
   //append new row to table
   $(".table > thead").append(newRow);
 
-  // Handle the errors
-});
-// function(errorObject) {
-//   console.log("Errors handled: " + errorObject.code);
-// };
+  // Handle the errors (call back)
+}), function (errorObject) {
+  console.log("Errors handled: " + errorObject.code);
+};
+
 
 
 
